@@ -1,0 +1,152 @@
+---
+import SectionLabel from '@/components/ui/SectionLabel.astro';
+
+const pasos = [
+  {
+    num: '01',
+    title: 'Diagnóstico ESG',
+    desc: 'Evaluamos tu huella de carbono actual, tus metas de sostenibilidad y el tipo de impacto que quieres reportar. Sin compromiso.',
+    duracion: '1–2 días',
+  },
+  {
+    num: '02',
+    title: 'Diseño del programa',
+    desc: 'Definimos cuántas ELISA® financias, en qué comunidades y países, y cómo se alinea con tus objetivos de reporte ESG.',
+    duracion: '3–5 días',
+  },
+  {
+    num: '03',
+    title: 'Instalación y activación',
+    desc: 'Nuestro equipo instala cada poste en campo en menos de 8 horas. Sin obra civil, sin cableado. La comunidad tiene luz desde el primer día.',
+    duracion: 'Desde semana 1',
+  },
+  {
+    num: '04',
+    title: 'Reportes y certificación',
+    desc: 'Recibes datos en tiempo real en tu dashboard, más un informe ESG verificado por terceros listo para tus reportes de sostenibilidad.',
+    duracion: 'Continuo',
+  },
+];
+---
+
+<section class="section section--dark proceso" aria-labelledby="proceso-heading">
+  <div class="container">
+    <div class="proceso__header gsap-hidden">
+      <SectionLabel light>Cómo funciona para empresas</SectionLabel>
+      <h2 id="proceso-heading" class="proceso__headline">
+        De la firma al primer<br />reporte en 4 pasos.
+      </h2>
+    </div>
+
+    <ol class="proceso__steps" aria-label="Pasos del proceso para empresas">
+      {pasos.map(paso => (
+        <li class="paso gsap-hidden">
+          <div class="paso__top">
+            <span class="paso__num" aria-hidden="true">{paso.num}</span>
+            <span class="paso__duracion">{paso.duracion}</span>
+          </div>
+          <h3 class="paso__title">{paso.title}</h3>
+          <p class="paso__desc">{paso.desc}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.fromTo('.proceso__header', { opacity: 0, y: 28 }, {
+    opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
+    scrollTrigger: { trigger: '.proceso', start: 'top 78%' },
+  });
+
+  gsap.fromTo('.paso', { opacity: 0, y: 28 }, {
+    opacity: 1, y: 0, duration: 0.6, stagger: 0.13, ease: 'power3.out',
+    scrollTrigger: { trigger: '.proceso__steps', start: 'top 80%' },
+  });
+</script>
+
+<style>
+  .proceso__header { margin-bottom: var(--space-16); }
+
+  .proceso__headline {
+    font-size: var(--text-h1);
+    font-weight: var(--weight-black);
+    letter-spacing: -0.02em;
+    color: var(--color-white);
+    margin-top: var(--space-3);
+  }
+
+  .proceso__steps {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1px;
+    background: rgba(56,182,255,0.1);
+    border: 1px solid rgba(56,182,255,0.1);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  @media (min-width: 700px) {
+    .proceso__steps { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (min-width: 1000px) {
+    .proceso__steps { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  .paso {
+    background: rgba(255,255,255,0.03);
+    padding: var(--space-8) var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    transition: background var(--duration-normal);
+  }
+
+  .paso:hover { background: rgba(56,182,255,0.07); }
+
+  .paso__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .paso__num {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5vw, 52px);
+    font-weight: var(--weight-black);
+    color: var(--color-primary);
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .paso__duracion {
+    font-size: var(--text-caption);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-muted);
+    background: rgba(56,182,255,0.1);
+    border: 1px solid rgba(56,182,255,0.18);
+    border-radius: var(--radius-pill);
+    padding: 4px 10px;
+    white-space: nowrap;
+  }
+
+  .paso__title {
+    font-size: var(--text-body-lg);
+    font-weight: var(--weight-bold);
+    color: var(--color-white);
+    line-height: var(--leading-snug);
+  }
+
+  .paso__desc {
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.55);
+    line-height: var(--leading-normal);
+    flex: 1;
+  }
+</style>

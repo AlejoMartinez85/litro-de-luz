@@ -1,0 +1,25 @@
+{
+  "name": "litro-de-luz-web",
+  "type": "module",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/react": "^3.6.0",
+    "astro": "^4.15.0",
+    "d3-geo": "^3.1.1",
+    "gsap": "^3.12.5",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "topojson-client": "^3.1.0",
+    "uipro-cli": "^2.2.3"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "typescript": "^5.5.0"
+  }
+}

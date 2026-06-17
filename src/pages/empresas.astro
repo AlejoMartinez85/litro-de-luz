@@ -1,0 +1,189 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Navbar from '@/components/layout/Navbar.astro';
+import Footer from '@/components/layout/Footer.astro';
+import SectionLabel from '@/components/ui/SectionLabel.astro';
+import Button from '@/components/ui/Button.astro';
+import EmpresasBeneficios from '@/components/sections/EmpresasBeneficios.astro';
+import EmpresasProceso from '@/components/sections/EmpresasProceso.astro';
+import Marcas from '@/components/sections/Marcas.astro';
+import EmpresasContacto from '@/components/sections/EmpresasContacto.astro';
+---
+
+<BaseLayout
+  title="Para empresas — Litro de Luz® | Certificación ESG con impacto real"
+  description="Convierte tu inversión en impacto ESG certificado. Litro de Luz® ofrece métricas verificadas de CO₂, personas beneficiadas y horas de luz generadas."
+>
+  <Navbar />
+  <main>
+
+    <!-- Hero -->
+    <section class="empresas-hero" aria-labelledby="empresas-heading">
+      <div class="empresas-hero__bg" aria-hidden="true">
+        <div class="empresas-hero__glow"></div>
+      </div>
+      <div class="container empresas-hero__inner">
+        <div class="empresas-hero__content">
+          <SectionLabel>Para empresas</SectionLabel>
+          <h1 id="empresas-heading" class="empresas-hero__headline">
+            Convierte tu inversión<br />
+            en impacto certificado.
+          </h1>
+          <p class="empresas-hero__subhead">
+            Litro de Luz® es la única plataforma que convierte infraestructura solar
+            en activos de impacto medibles, verificables y reportables para tu estrategia ESG.
+          </p>
+          <div class="empresas-hero__ctas">
+            <Button href="#contacto" size="lg" arrow>
+              Habla con nuestro equipo ESG
+            </Button>
+            <Button href="#proceso" variant="secondary" size="lg">
+              Ver el proceso
+            </Button>
+          </div>
+        </div>
+
+        <!-- Stats rápidos -->
+        <ul class="empresas-hero__stats" role="list" aria-label="Métricas clave para empresas">
+          <li class="empresas-hero__stat">
+            <span class="empresas-hero__stat-val">500+</span>
+            <span class="empresas-hero__stat-lbl">Empresas aliadas</span>
+          </li>
+          <li class="empresas-hero__stat">
+            <span class="empresas-hero__stat-val">$15M</span>
+            <span class="empresas-hero__stat-lbl">En impacto certificado</span>
+          </li>
+          <li class="empresas-hero__stat">
+            <span class="empresas-hero__stat-val">98%</span>
+            <span class="empresas-hero__stat-lbl">Renovación de alianzas</span>
+          </li>
+          <li class="empresas-hero__stat">
+            <span class="empresas-hero__stat-val">24h</span>
+            <span class="empresas-hero__stat-lbl">Tiempo de respuesta</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <Marcas />
+    <EmpresasBeneficios />
+
+    <div id="proceso">
+      <EmpresasProceso />
+    </div>
+
+    <EmpresasContacto />
+
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  import { gsap } from 'gsap';
+
+  const tl = gsap.timeline({ delay: 0.1 });
+  tl.fromTo('.empresas-hero__content > *',
+    { opacity: 0, y: 28 },
+    { opacity: 1, y: 0, duration: 0.7, stagger: 0.12, ease: 'power3.out' }
+  );
+  tl.fromTo('.empresas-hero__stats',
+    { opacity: 0, y: 20 },
+    { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
+    '-=0.3'
+  );
+</script>
+
+<style>
+  /* ── Hero ── */
+  .empresas-hero {
+    position: relative;
+    background: var(--color-bg-dark);
+    color: var(--color-white);
+    padding-block: var(--space-24);
+    overflow: hidden;
+  }
+
+  .empresas-hero__bg { position: absolute; inset: 0; pointer-events: none; }
+
+  .empresas-hero__glow {
+    position: absolute;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(56,182,255,0.13) 0%, transparent 65%);
+    bottom: -20%;
+    right: -10%;
+    filter: blur(70px);
+    border-radius: 50%;
+  }
+
+  .empresas-hero__inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+  }
+
+  .empresas-hero__content { max-width: 680px; }
+
+  .empresas-hero__headline {
+    font-size: var(--text-h1);
+    font-weight: var(--weight-black);
+    letter-spacing: -0.02em;
+    color: var(--color-white);
+    margin-top: var(--space-3);
+    margin-bottom: var(--space-6);
+    line-height: var(--leading-tight);
+  }
+
+  .empresas-hero__subhead {
+    font-size: var(--text-body-lg);
+    color: rgba(255,255,255,0.62);
+    line-height: var(--leading-normal);
+    max-width: 560px;
+    margin-bottom: var(--space-8);
+  }
+
+  .empresas-hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+
+  /* Stats */
+  .empresas-hero__stats {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+    max-width: 560px;
+  }
+
+  @media (min-width: 600px) {
+    .empresas-hero__stats { grid-template-columns: repeat(4, 1fr); max-width: 100%; }
+  }
+
+  .empresas-hero__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-top: var(--space-4);
+    border-top: 2px solid rgba(56,182,255,0.25);
+  }
+
+  .empresas-hero__stat-val {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: var(--weight-black);
+    color: var(--color-white);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .empresas-hero__stat-lbl {
+    font-size: var(--text-caption);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+  }
+</style>

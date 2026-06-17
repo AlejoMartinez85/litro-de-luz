@@ -1,0 +1,212 @@
+---
+import SectionLabel from '@/components/ui/SectionLabel.astro';
+import Button from '@/components/ui/Button.astro';
+
+const benefits = [
+  {
+    title: 'Certificación ESG automática',
+    desc: 'Cada ELISA® que financias genera créditos de carbono verificados y reportes listos para tu informe de sostenibilidad.',
+  },
+  {
+    title: 'Impacto medible en tiempo real',
+    desc: 'Dashboard con datos de energía generada, kWh ahorrados, personas beneficiadas y CO₂ evitado — actualizados 24/7.',
+  },
+  {
+    title: 'Beneficio tributario',
+    desc: 'Tu inversión en ELISA® es deducible de renta en Colombia. El impacto social y el ahorro fiscal van de la mano.',
+  },
+];
+
+const stats = [
+  { value: '500+', label: 'empresas aliadas' },
+  { value: '$15M', label: 'en impacto certificado' },
+  { value: '98%', label: 'renovación de alianzas' },
+];
+---
+
+<section class="section companies" id="empresas-home" aria-labelledby="companies-heading">
+  <div class="container">
+    <div class="companies__inner">
+      <!-- Left: headline + stats + CTA -->
+      <div class="companies__left">
+        <div class="gsap-hidden">
+          <SectionLabel>Para empresas</SectionLabel>
+          <h2 id="companies-heading" class="companies__headline">
+            Tu empresa puede<br />
+            certificar impacto<br />
+            <span class="companies__accent">ESG real.</span>
+          </h2>
+          <p class="companies__sub">
+            Convierte tu inversión en carbono en luz, internet y datos de impacto
+            verificables. Más de 500 empresas ya lo hacen con ELISA®.
+          </p>
+        </div>
+
+        <ul class="companies__stats gsap-hidden" role="list">
+          {stats.map(s => (
+            <li class="companies__stat">
+              <span class="companies__stat-value">{s.value}</span>
+              <span class="companies__stat-label">{s.label}</span>
+            </li>
+          ))}
+        </ul>
+
+        <div class="gsap-hidden">
+          <Button href="/empresas#contacto" size="lg" arrow>
+            Empieza tu certificación
+          </Button>
+        </div>
+      </div>
+
+      <!-- Right: benefit cards -->
+      <ul class="companies__cards" role="list">
+        {benefits.map((b, i) => (
+          <li class="companies__card gsap-hidden" style={`--delay: ${i * 0.1}s`}>
+            <span class="companies__card-num" aria-hidden="true">0{i + 1}</span>
+            <h3 class="companies__card-title">{b.title}</h3>
+            <p class="companies__card-desc">{b.desc}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.fromTo('.companies__left .gsap-hidden', { opacity: 0, x: -28 }, {
+    opacity: 1, x: 0, duration: 0.7, stagger: 0.15, ease: 'power3.out',
+    scrollTrigger: { trigger: '.companies', start: 'top 75%' },
+  });
+
+  gsap.fromTo('.companies__card', { opacity: 0, y: 28 }, {
+    opacity: 1, y: 0, duration: 0.65, stagger: 0.12, ease: 'power3.out',
+    scrollTrigger: { trigger: '.companies__cards', start: 'top 80%' },
+  });
+</script>
+
+<style>
+  .companies {
+    background: var(--color-bg-dark);
+    color: var(--color-white);
+  }
+
+  .companies__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-16);
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .companies__inner {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-16);
+    }
+  }
+
+  /* Left */
+  .companies__left {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-10);
+  }
+
+  .companies__headline {
+    font-size: var(--text-h1);
+    font-weight: var(--weight-black);
+    color: var(--color-white);
+    letter-spacing: -0.02em;
+    margin-top: var(--space-3);
+    line-height: var(--leading-tight);
+  }
+
+  .companies__accent {
+    color: var(--color-primary);
+  }
+
+  .companies__sub {
+    font-size: var(--text-body-lg);
+    color: rgba(255,255,255,0.6);
+    line-height: var(--leading-normal);
+    margin-top: var(--space-4);
+    max-width: 420px;
+  }
+
+  /* Stats */
+  .companies__stats {
+    list-style: none;
+    display: flex;
+    gap: var(--space-8);
+    flex-wrap: wrap;
+  }
+
+  .companies__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .companies__stat-value {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: var(--weight-black);
+    color: var(--color-white);
+    line-height: 1;
+  }
+
+  .companies__stat-label {
+    font-size: var(--text-caption);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+  }
+
+  /* Cards */
+  .companies__cards {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .companies__card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(56,182,255,0.12);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    transition: background var(--duration-normal) var(--easing-smooth),
+                border-color var(--duration-normal) var(--easing-smooth);
+    cursor: default;
+  }
+
+  .companies__card:hover {
+    background: rgba(56,182,255,0.07);
+    border-color: rgba(56,182,255,0.3);
+  }
+
+  .companies__card-num {
+    display: block;
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    letter-spacing: 0.1em;
+    color: var(--color-primary);
+    margin-bottom: var(--space-3);
+  }
+
+  .companies__card-title {
+    font-size: var(--text-body-lg);
+    font-weight: var(--weight-bold);
+    color: var(--color-white);
+    margin-bottom: var(--space-2);
+  }
+
+  .companies__card-desc {
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.55);
+    line-height: var(--leading-normal);
+  }
+</style>

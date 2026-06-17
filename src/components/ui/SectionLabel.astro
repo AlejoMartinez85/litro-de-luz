@@ -1,0 +1,25 @@
+---
+interface Props {
+  light?: boolean;
+}
+const { light = false } = Astro.props;
+---
+<p class={`section-label ${light ? 'section-label--light' : ''}`}>
+  <slot />
+</p>
+
+<style>
+  .section-label {
+    display: inline-block;
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-primary-dark);
+    margin-bottom: var(--space-4);
+  }
+
+  .section-label--light {
+    color: var(--color-primary);
+  }
+</style>

@@ -1,0 +1,168 @@
+---
+import { Image } from 'astro:assets';
+import logo from '@/assets/images/logo/Litro de Luz 2022 Flat.png';
+
+const links = {
+  producto: [
+    { href: '/#elisa', label: 'ELISA®' },
+    { href: '/impacto', label: 'Mapa de impacto' },
+    { href: '/#como-funciona', label: 'Cómo funciona' },
+  ],
+  empresa: [
+    { href: '/empresas', label: 'Para empresas' },
+    { href: '/empresas#esg', label: 'Certificación ESG' },
+    { href: '/empresas#contacto', label: 'Contacto' },
+  ],
+  legal: [
+    { href: '/estados-financieros', label: 'Estados financieros' },
+    { href: '/privacidad', label: 'Privacidad' },
+  ],
+};
+
+const social = [
+  { href: 'https://twitter.com/unlitrodeluzcol', label: 'Twitter/X' },
+  { href: 'https://www.youtube.com/user/unlitrodeluzcolombia', label: 'YouTube' },
+  { href: 'https://www.facebook.com/unlitrodeluzcol/', label: 'Facebook' },
+];
+---
+
+<footer class="footer" role="contentinfo">
+  <div class="container footer__inner">
+    <div class="footer__brand">
+      <Image src={logo} alt="Litro de Luz®" height={52} width={52} class="footer__logo-img" />
+      <p class="footer__tagline">Llevamos luz solar donde<br />la red eléctrica no llega.</p>
+      <div class="footer__social">
+        {social.map(s => (
+          <a href={s.href} target="_blank" rel="noopener noreferrer" class="footer__social-link">
+            {s.label}
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <nav class="footer__nav" aria-label="Links del footer">
+      <div class="footer__col">
+        <p class="footer__col-title">Producto</p>
+        <ul role="list">
+          {links.producto.map(l => <li><a href={l.href} class="footer__link">{l.label}</a></li>)}
+        </ul>
+      </div>
+      <div class="footer__col">
+        <p class="footer__col-title">Empresas</p>
+        <ul role="list">
+          {links.empresa.map(l => <li><a href={l.href} class="footer__link">{l.label}</a></li>)}
+        </ul>
+      </div>
+      <div class="footer__col">
+        <p class="footer__col-title">Legal</p>
+        <ul role="list">
+          {links.legal.map(l => <li><a href={l.href} class="footer__link">{l.label}</a></li>)}
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <div class="footer__bottom">
+    <div class="container">
+      <p>© {new Date().getFullYear()} Litro de Luz® Colombia. Todos los derechos reservados.</p>
+      <p>
+        <a href="mailto:gerencia@unlitrodeluzcolombia.org" class="footer__email">
+          gerencia@unlitrodeluzcolombia.org
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--color-bg-dark);
+    color: var(--color-text-muted);
+    margin-top: auto;
+  }
+
+  .footer__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-12);
+    padding-block: var(--space-16);
+  }
+
+  @media (min-width: 768px) {
+    .footer__inner { grid-template-columns: 1fr 2fr; }
+  }
+
+  .footer__logo-img {
+    height: 52px;
+    width: 52px;
+    border-radius: var(--radius-md);
+    display: block;
+    margin-bottom: var(--space-3);
+  }
+
+  .footer__tagline {
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-6);
+  }
+
+  .footer__social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+
+  .footer__social-link {
+    font-size: var(--text-sm);
+    color: var(--color-primary);
+    transition: color var(--duration-fast);
+  }
+
+  .footer__social-link:hover { color: var(--color-white); }
+
+  .footer__nav {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-8);
+  }
+
+  .footer__col-title {
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-white);
+    margin-bottom: var(--space-4);
+  }
+
+  .footer__col ul { list-style: none; display: flex; flex-direction: column; gap: var(--space-2); }
+
+  .footer__link {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    transition: color var(--duration-fast);
+  }
+
+  .footer__link:hover { color: var(--color-primary); }
+
+  .footer__bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-block: var(--space-6);
+  }
+
+  .footer__bottom .container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-2);
+    font-size: var(--text-caption);
+  }
+
+  .footer__email {
+    color: var(--color-primary);
+    transition: color var(--duration-fast);
+  }
+
+  .footer__email:hover { color: var(--color-white); }
+</style>

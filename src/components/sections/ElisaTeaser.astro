@@ -1,0 +1,240 @@
+---
+import SectionLabel from '@/components/ui/SectionLabel.astro';
+import Button from '@/components/ui/Button.astro';
+
+const highlights = [
+  { label: 'Panel solar',  value: '100 W monocristalino' },
+  { label: 'Autonomía',    value: '5 noches sin sol' },
+  { label: 'Conectividad', value: 'WiFi 100 m integrado' },
+  { label: 'Instalación',  value: 'Lista en 8 horas' },
+];
+---
+
+<section class="section section--soft elisa-teaser" id="producto" aria-labelledby="teaser-heading">
+  <div class="container elisa-teaser__inner">
+
+    <!-- Visual -->
+    <div class="elisa-teaser__visual gsap-hidden" aria-hidden="true">
+      <div class="elisa-teaser__card">
+        <svg
+          class="elisa-teaser__svg"
+          viewBox="0 0 260 460"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <defs>
+            <radialGradient id="teaserGlow" cx="65%" cy="62%" r="45%">
+              <stop offset="0%"   stop-color="#38b6ff" stop-opacity="0.35"/>
+              <stop offset="100%" stop-color="#38b6ff" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="teaserPanel" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%"   stop-color="#1a9ee0"/>
+              <stop offset="100%" stop-color="#0d6fa3"/>
+            </linearGradient>
+          </defs>
+          <ellipse cx="178" cy="292" rx="72" ry="52" fill="url(#teaserGlow)"/>
+          <g transform="rotate(-7, 100, 88)">
+            <rect x="38" y="52" width="122" height="72" rx="5" fill="#0D1A2E"/>
+            <rect x="43" y="57" width="112" height="62" rx="3" fill="url(#teaserPanel)"/>
+            <g stroke="rgba(255,255,255,0.28)" stroke-width="0.8" fill="none">
+              <line x1="80"  y1="57" x2="80"  y2="119"/>
+              <line x1="117" y1="57" x2="117" y2="119"/>
+              <line x1="43"  y1="78" x2="155" y2="78"/>
+              <line x1="43"  y1="98" x2="155" y2="98"/>
+            </g>
+          </g>
+          <g stroke="#38b6ff" stroke-width="1.8" stroke-linecap="round" opacity="0.25">
+            <line x1="192" y1="42" x2="204" y2="30"/>
+            <line x1="205" y1="62" x2="220" y2="57"/>
+            <line x1="188" y1="24" x2="188" y2="10"/>
+          </g>
+          <rect x="122" y="110" width="14" height="265" rx="4" fill="#0D1A2E"/>
+          <path d="M 129 235 Q 148 235 170 235" stroke="#0D1A2E" stroke-width="9" fill="none" stroke-linecap="round"/>
+          <rect x="158" y="225" width="44" height="20" rx="7" fill="#0D1A2E"/>
+          <rect x="163" y="229" width="34" height="12" rx="4" fill="#38b6ff" opacity="0.85"/>
+          <ellipse cx="180" cy="251" rx="18" ry="6" fill="#38b6ff" opacity="0.25"/>
+          <g stroke="#38b6ff" stroke-width="1.6" fill="none" stroke-linecap="round" opacity="0.55">
+            <path d="M 116 162 Q 129 156 142 162"/>
+            <path d="M 110 153 Q 129 144 148 153"/>
+            <path d="M 104 144 Q 129 132 154 144"/>
+          </g>
+          <circle cx="129" cy="169" r="2.5" fill="#38b6ff" opacity="0.7"/>
+          <rect x="114" y="375" width="30" height="8" rx="3" fill="#0D1A2E" opacity="0.18"/>
+          <circle cx="28"  cy="145" r="2.5" fill="#38b6ff" opacity="0.3"/>
+          <circle cx="228" cy="115" r="2"   fill="#38b6ff" opacity="0.25"/>
+          <circle cx="220" cy="210" r="3"   fill="#38b6ff" opacity="0.18"/>
+        </svg>
+
+        <div class="elisa-teaser__badge">
+          <span class="elisa-teaser__badge-dot" aria-hidden="true"></span>
+          100 unidades/día
+        </div>
+      </div>
+    </div>
+
+    <!-- Contenido -->
+    <div class="elisa-teaser__content">
+      <div class="gsap-hidden">
+        <SectionLabel>El producto</SectionLabel>
+        <h2 id="teaser-heading" class="elisa-teaser__headline">
+          ELISA®: el poste solar<br />que lo hace posible.
+        </h2>
+        <p class="elisa-teaser__sub">
+          Sin red eléctrica, sin obra civil. ELISA® combina panel solar,
+          batería de litio y WiFi en un solo poste autónomo diseñado para
+          durar más de 15 años en campo.
+        </p>
+      </div>
+
+      <ul class="elisa-teaser__specs gsap-hidden" role="list">
+        {highlights.map(h => (
+          <li class="elisa-teaser__spec">
+            <span class="elisa-teaser__spec-label">{h.label}</span>
+            <span class="elisa-teaser__spec-value">{h.value}</span>
+          </li>
+        ))}
+      </ul>
+
+      <div class="gsap-hidden">
+        <Button href="/elisa" size="lg" arrow>
+          Ver especificaciones completas
+        </Button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.fromTo('.elisa-teaser__visual', { opacity: 0, x: -28 }, {
+    opacity: 1, x: 0, duration: 0.85, ease: 'power3.out',
+    scrollTrigger: { trigger: '.elisa-teaser', start: 'top 75%' },
+  });
+
+  gsap.fromTo('.elisa-teaser__content .gsap-hidden', { opacity: 0, y: 24 }, {
+    opacity: 1, y: 0, duration: 0.65, stagger: 0.14, ease: 'power3.out',
+    scrollTrigger: { trigger: '.elisa-teaser__content', start: 'top 78%' },
+  });
+</script>
+
+<style>
+  .elisa-teaser__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-12);
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .elisa-teaser__inner { grid-template-columns: 340px 1fr; }
+  }
+
+  /* Visual */
+  .elisa-teaser__card {
+    background: var(--color-bg);
+    border: 1px solid rgba(56,182,255,0.15);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+    padding: var(--space-8) var(--space-6) var(--space-6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+    max-width: 340px;
+  }
+
+  .elisa-teaser__svg {
+    width: 100%;
+    max-width: 220px;
+    height: auto;
+  }
+
+  .elisa-teaser__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    color: var(--color-success);
+    background: var(--color-success-bg);
+    border: 1px solid var(--color-success-border);
+    border-radius: var(--radius-pill);
+    padding: 6px 14px;
+  }
+
+  .elisa-teaser__badge-dot {
+    width: 7px;
+    height: 7px;
+    background: var(--color-success);
+    border-radius: 50%;
+    animation: teaserPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes teaserPulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.35; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .elisa-teaser__badge-dot { animation: none; }
+  }
+
+  /* Content */
+  .elisa-teaser__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .elisa-teaser__headline {
+    font-size: var(--text-h1);
+    font-weight: var(--weight-black);
+    letter-spacing: -0.02em;
+    color: var(--color-text-primary);
+    margin-top: var(--space-3);
+  }
+
+  .elisa-teaser__sub {
+    font-size: var(--text-body-lg);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-normal);
+    margin-top: var(--space-4);
+    max-width: 480px;
+  }
+
+  /* Specs list */
+  .elisa-teaser__specs {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+  }
+
+  .elisa-teaser__spec {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    border: 1px solid rgba(56,182,255,0.12);
+  }
+
+  .elisa-teaser__spec-label {
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary-dark);
+  }
+
+  .elisa-teaser__spec-value {
+    font-size: var(--text-body-lg);
+    font-weight: var(--weight-bold);
+    color: var(--color-text-primary);
+  }
+</style>

@@ -1,0 +1,85 @@
+---
+import SectionLabel from '@/components/ui/SectionLabel.astro';
+import MetricCounter from '@/components/islands/MetricCounter.jsx';
+
+const metrics = [
+  { value: 550728, suffix: '+', label: 'Personas iluminadas',  description: 'Con luz e internet gracias a ELISA®' },
+  { value: 7000,   suffix: '+', label: 'ELISA® activas',       description: 'Postes solares instalados en campo' },
+  { value: 35,     suffix: '',  label: 'Países',               description: 'Presencia en 5 continentes' },
+  { value: 500,    suffix: '+', label: 'Comunidades',          description: 'Transformadas de forma permanente' },
+];
+---
+
+<section class="section impact" id="impacto" aria-labelledby="impact-heading">
+  <div class="container">
+    <div class="impact__header gsap-hidden">
+      <SectionLabel>Nuestro impacto</SectionLabel>
+      <h2 id="impact-heading" class="impact__headline">
+        Números reales.<br />Impacto permanente.
+      </h2>
+    </div>
+
+    <ul class="impact__grid" role="list" aria-label="Métricas de impacto de Litro de Luz®">
+      {metrics.map(m => (
+        <li role="listitem">
+          <MetricCounter
+            client:visible
+            value={m.value}
+            suffix={m.suffix}
+            label={m.label}
+            description={m.description}
+          />
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.fromTo('.impact__header', { opacity: 0, y: 28 }, {
+    opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
+    scrollTrigger: { trigger: '.impact', start: 'top 78%' },
+  });
+</script>
+
+<style>
+  .impact {
+    background: var(--color-bg);
+    border-bottom: 1px solid rgba(56, 182, 255, 0.1);
+  }
+
+  .impact__header {
+    margin-bottom: var(--space-16);
+  }
+
+  .impact__headline {
+    font-size: var(--text-h1);
+    font-weight: var(--weight-black);
+    letter-spacing: -0.02em;
+    color: var(--color-text-primary);
+    margin-top: var(--space-3);
+  }
+
+  .impact__grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-12) var(--space-16);
+  }
+
+  @media (min-width: 768px) {
+    .impact__grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+
+    .impact__grid li + li {
+      border-left: 1px solid rgba(56, 182, 255, 0.12);
+      padding-left: var(--space-8);
+    }
+  }
+</style>

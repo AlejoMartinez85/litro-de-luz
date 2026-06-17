@@ -1,0 +1,67 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Navbar from '@/components/layout/Navbar.astro';
+import Footer from '@/components/layout/Footer.astro';
+import SectionLabel from '@/components/ui/SectionLabel.astro';
+import MetricCounter from '@/components/islands/MetricCounter.jsx';
+import ImpactMapSection from '@/components/sections/ImpactMapSection.astro';
+import { impactMetrics } from '@/data/metrics';
+---
+
+<BaseLayout
+  title="Impacto global — Litro de Luz® | +550.000 beneficiarios en 35 países"
+  description="Mapa interactivo de presencia global de Litro de Luz®. Conoce las comunidades beneficiadas y las métricas de impacto en tiempo real."
+>
+  <Navbar />
+  <main>
+    <section class="section impacto-hero" aria-labelledby="impacto-heading">
+      <div class="container">
+        <SectionLabel>Impacto global</SectionLabel>
+        <h1 id="impacto-heading" class="impacto-hero__headline">
+          550.000 vidas iluminadas.<br />Contando.
+        </h1>
+
+        <div class="impacto-hero__metrics" role="list" aria-label="Métricas de impacto">
+          {impactMetrics.map(metric => (
+            <div role="listitem">
+              <MetricCounter
+                client:visible
+                value={metric.value}
+                suffix={metric.suffix}
+                label={metric.label}
+                description={metric.description}
+              />
+            </div>
+          ))}
+        </div>
+
+        <ImpactMapSection mode="full" />
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .impacto-hero { padding-block: var(--space-24); }
+
+  .impacto-hero__headline {
+    font-size: var(--text-h1);
+    font-weight: var(--weight-black);
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-16);
+    margin-top: var(--space-4);
+  }
+
+  .impacto-hero__metrics {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-8);
+    margin-bottom: var(--space-16);
+  }
+
+  @media (min-width: 768px) {
+    .impacto-hero__metrics { grid-template-columns: repeat(5, 1fr); }
+  }
+
+</style>

@@ -1,0 +1,427 @@
+---
+/**
+ * Marcas.astro — Muro de socios y reconocimientos
+ *
+ * mode="teaser"  → home: 7 marcas de mayor impacto + CTA a /empresas
+ * mode="full"    → /empresas: marquee doble + franja de premios y prensa
+ */
+
+import { marqueeRow1, marqueeRow2, premios, medios, teaserBrands } from '@/data/brands';
+import Button from '@/components/ui/Button.astro';
+
+interface Props {
+  variant?: 'light' | 'dark';
+  mode?: 'full' | 'teaser';
+}
+const { variant = 'light', mode = 'full' } = Astro.props;
+
+const row1 = [...marqueeRow1, ...marqueeRow1];
+const row2 = [...marqueeRow2, ...marqueeRow2];
+---
+
+<section
+  class={`marcas ${variant === 'dark' ? 'marcas--dark' : ''} ${mode === 'teaser' ? 'marcas--teaser' : ''}`}
+  aria-labelledby="marcas-label"
+  id={mode === 'full' ? 'marcas' : undefined}
+>
+
+  {mode === 'teaser' ? (
+    /* ── MODO TEASER (home) ─────────────────────────────── */
+    <div class="container marcas__teaser">
+      <div class="marcas__teaser-header">
+        <p class="marcas__eyebrow" id="marcas-label">Confían en nosotros</p>
+        <p class="marcas__teaser-headline">
+          Líderes globales que ya<br />impulsan el acceso a energía solar.
+        </p>
+      </div>
+
+      <ul class="marcas__teaser-list" role="list">
+        {teaserBrands.map((brand, i) => (
+          <>
+            <li class="marcas__teaser-item" role="listitem">
+              <span class="marcas__teaser-name">{brand.name}</span>
+            </li>
+            {i < teaserBrands.length - 1 && (
+              <li class="marcas__teaser-sep" aria-hidden="true">·</li>
+            )}
+          </>
+        ))}
+      </ul>
+
+      <div class="marcas__teaser-cta">
+        <Button href="/empresas#marcas" variant="secondary" size="md" arrow>
+          Ver todos nuestros aliados
+        </Button>
+      </div>
+    </div>
+
+  ) : (
+    /* ── MODO FULL (/empresas) ──────────────────────────── */
+    <>
+      <div class="container marcas__header">
+        <p class="marcas__eyebrow">Red global de aliados</p>
+        <h2 id="marcas-label" class="marcas__headline">
+          +500 organizaciones ya certifican<br />su impacto con ELISA®
+        </h2>
+      </div>
+
+      <div class="marcas__track" aria-hidden="true">
+        <ul class="marcas__list marcas__list--forward" role="list">
+          {row1.map((brand, i) => (
+            <li class="marcas__item" role="listitem">
+              <span class="marcas__name">{brand.name}</span>
+              {i < row1.length - 1 && <span class="marcas__sep" aria-hidden="true">·</span>}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="marcas__track marcas__track--reverse" aria-hidden="true">
+        <ul class="marcas__list marcas__list--backward" role="list">
+          {row2.map((brand, i) => (
+            <li class="marcas__item" role="listitem">
+              <span class="marcas__name">{brand.name}</span>
+              {i < row2.length - 1 && <span class="marcas__sep" aria-hidden="true">·</span>}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="container marcas__recognition">
+        <div class="marcas__recognition-group">
+          <p class="marcas__recognition-label">Reconocidos por</p>
+          <ul class="marcas__recognition-list" role="list">
+            {premios.map(p => (
+              <li class="marcas__recognition-item marcas__recognition-item--prize">
+                {p.name}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="marcas__recognition-divider" aria-hidden="true"></div>
+
+        <div class="marcas__recognition-group">
+          <p class="marcas__recognition-label">Cubiertos por</p>
+          <ul class="marcas__recognition-list" role="list">
+            {medios.map(m => (
+              <li class="marcas__recognition-item marcas__recognition-item--media">
+                {m.name}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </>
+  )}
+
+</section>
+
+<style>
+  /* ── Base ── */
+  .marcas {
+    background: var(--color-bg);
+    padding-block: var(--space-16);
+    border-top: 1px solid rgba(56, 182, 255, 0.10);
+    border-bottom: 1px solid rgba(56, 182, 255, 0.10);
+    overflow: hidden;
+  }
+
+  .marcas--dark {
+    background: var(--color-bg-dark);
+    border-color: rgba(255, 255, 255, 0.06);
+  }
+
+  /* ── Label eyebrow compartido ── */
+  .marcas__label {
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-muted);
+    text-align: center;
+  }
+
+  .marcas--dark .marcas__label {
+    color: rgba(255, 255, 255, 0.30);
+  }
+
+  /* ══════════════════════════════════════════
+     MODO TEASER
+  ══════════════════════════════════════════ */
+  .marcas--teaser {
+    padding-block: var(--space-24);
+  }
+
+  .marcas__teaser {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  /* Bloque de encabezado teaser */
+  .marcas__teaser-header {
+    text-align: center;
+    margin-bottom: var(--space-12);
+  }
+
+  .marcas__teaser-headline {
+    font-family: var(--font-display);
+    font-size: clamp(24px, 3.5vw, 38px);
+    font-weight: var(--weight-black);
+    color: var(--color-text-primary);
+    letter-spacing: -0.02em;
+    line-height: var(--leading-tight);
+    margin-top: var(--space-3);
+  }
+
+  .marcas--dark .marcas__teaser-headline {
+    color: var(--color-white);
+  }
+
+  .marcas__teaser-list {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-3);
+    margin-bottom: var(--space-12);
+  }
+
+  .marcas__teaser-item {
+    display: flex;
+    align-items: center;
+  }
+
+  .marcas__teaser-sep {
+    color: rgba(56, 182, 255, 0.35);
+    font-size: 20px;
+    line-height: 1;
+    user-select: none;
+    padding-inline: var(--space-1);
+    list-style: none;
+  }
+
+  .marcas--dark .marcas__teaser-sep {
+    color: rgba(56, 182, 255, 0.25);
+  }
+
+  .marcas__teaser-name {
+    font-family: var(--font-display);
+    font-size: clamp(18px, 2.5vw, 24px);
+    font-weight: var(--weight-black);
+    color: var(--color-text-muted);
+    letter-spacing: -0.02em;
+    transition: color var(--duration-fast);
+    cursor: default;
+    white-space: nowrap;
+  }
+
+  .marcas--dark .marcas__teaser-name {
+    color: rgba(255, 255, 255, 0.22);
+  }
+
+  .marcas__teaser-name:hover { color: var(--color-text-primary); }
+  .marcas--dark .marcas__teaser-name:hover { color: rgba(255, 255, 255, 0.65); }
+
+  .marcas__teaser-cta {
+    display: flex;
+    justify-content: center;
+  }
+
+  /* ══════════════════════════════════════════
+     MODO FULL — Encabezado con jerarquía real
+  ══════════════════════════════════════════ */
+  .marcas__header {
+    text-align: center;
+    margin-bottom: var(--space-12);
+  }
+
+  .marcas__eyebrow {
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-3);
+  }
+
+  .marcas--dark .marcas__eyebrow {
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  .marcas__headline {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 3vw, 36px);
+    font-weight: var(--weight-black);
+    color: var(--color-text-primary);
+    letter-spacing: -0.02em;
+    line-height: var(--leading-tight);
+  }
+
+  .marcas--dark .marcas__headline {
+    color: var(--color-white);
+  }
+
+  /* ══════════════════════════════════════════
+     MODO FULL — Marquee
+  ══════════════════════════════════════════ */
+  .marcas__track {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 10%,
+      black 90%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 10%,
+      black 90%,
+      transparent 100%
+    );
+    margin-bottom: var(--space-6);
+  }
+
+  .marcas__list {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    width: max-content;
+    gap: 0;
+  }
+
+  .marcas__list--forward  { animation: marquee-forward  40s linear infinite; }
+  .marcas__list--backward { animation: marquee-backward 35s linear infinite; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marcas__list--forward,
+    .marcas__list--backward {
+      animation: none;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+      gap: var(--space-4) var(--space-8);
+    }
+  }
+
+  .marcas__track:hover .marcas__list { animation-play-state: paused; }
+
+  .marcas__item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding-inline: var(--space-4);
+    white-space: nowrap;
+  }
+
+  .marcas__name {
+    font-family: var(--font-display);
+    font-size: var(--text-body);
+    font-weight: var(--weight-bold);
+    color: var(--color-text-muted);
+    letter-spacing: -0.01em;
+    transition: color var(--duration-fast) var(--easing-smooth);
+    cursor: default;
+  }
+
+  .marcas--dark .marcas__name { color: rgba(255, 255, 255, 0.22); }
+  .marcas__name:hover { color: var(--color-primary-dark); }
+  .marcas--dark .marcas__name:hover { color: var(--color-primary); }
+
+  .marcas__sep {
+    color: rgba(56, 182, 255, 0.30);
+    font-weight: var(--weight-regular);
+    font-size: 18px;
+  }
+
+  @keyframes marquee-forward {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  @keyframes marquee-backward {
+    0%   { transform: translateX(-50%); }
+    100% { transform: translateX(0); }
+  }
+
+  /* ── Franja premios + medios ── */
+  .marcas__recognition {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-8);
+    flex-wrap: wrap;
+    padding-top: var(--space-6);
+    border-top: 1px solid rgba(56, 182, 255, 0.08);
+  }
+
+  .marcas--dark .marcas__recognition { border-color: rgba(255, 255, 255, 0.06); }
+
+  .marcas__recognition-group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .marcas__recognition-label {
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .marcas--dark .marcas__recognition-label { color: rgba(255, 255, 255, 0.25); }
+
+  .marcas__recognition-list {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .marcas__recognition-item {
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-bold);
+    white-space: nowrap;
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+  }
+
+  .marcas__recognition-item--prize {
+    background: rgba(232, 98, 26, 0.08);
+    color: var(--color-accent);
+    border: 1px solid rgba(232, 98, 26, 0.20);
+  }
+
+  .marcas__recognition-item--media {
+    background: rgba(56, 182, 255, 0.08);
+    color: var(--color-primary-dark);
+    border: 1px solid rgba(56, 182, 255, 0.20);
+  }
+
+  .marcas--dark .marcas__recognition-item--media {
+    color: var(--color-primary);
+    background: rgba(56, 182, 255, 0.10);
+    border-color: rgba(56, 182, 255, 0.25);
+  }
+
+  .marcas__recognition-divider {
+    width: 1px;
+    height: 32px;
+    background: rgba(56, 182, 255, 0.15);
+    flex-shrink: 0;
+  }
+
+  .marcas--dark .marcas__recognition-divider { background: rgba(255, 255, 255, 0.08); }
+</style>

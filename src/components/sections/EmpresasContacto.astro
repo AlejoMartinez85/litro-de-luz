@@ -1,0 +1,283 @@
+---
+import SectionLabel from '@/components/ui/SectionLabel.astro';
+---
+
+<section class="section section--soft contacto" id="contacto" aria-labelledby="contacto-heading">
+  <div class="container contacto__inner">
+
+    <!-- Izquierda: info -->
+    <div class="contacto__info">
+      <SectionLabel>Habla con nosotros</SectionLabel>
+      <h2 id="contacto-heading" class="contacto__headline gsap-hidden">
+        Empieza tu<br />certificación ESG<br />
+        <span class="contacto__accent">hoy.</span>
+      </h2>
+      <p class="contacto__sub gsap-hidden">
+        Nuestro equipo de impacto te acompaña desde el diagnóstico hasta
+        el primer reporte. Sin complicaciones.
+      </p>
+      <ul class="contacto__datos gsap-hidden" role="list">
+        <li>
+          <span class="contacto__dato-label">Email directo</span>
+          <a href="mailto:empresas@unlitrodeluzcolombia.org" class="contacto__dato-val">
+            empresas@unlitrodeluzcolombia.org
+          </a>
+        </li>
+        <li>
+          <span class="contacto__dato-label">Tiempo de respuesta</span>
+          <span class="contacto__dato-val">Menos de 24 horas hábiles</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Derecha: formulario -->
+    <div class="contacto__form-wrap gsap-hidden">
+      <form
+        class="contacto__form"
+        name="contacto-empresas"
+        method="POST"
+        action="#contacto"
+        novalidate
+        aria-label="Formulario de contacto para empresas"
+      >
+        <div class="form__row">
+          <div class="form__field">
+            <label for="nombre" class="form__label">Nombre completo</label>
+            <input
+              type="text"
+              id="nombre"
+              name="nombre"
+              class="form__input"
+              placeholder="Ana García"
+              autocomplete="name"
+              required
+            />
+          </div>
+          <div class="form__field">
+            <label for="empresa" class="form__label">Empresa</label>
+            <input
+              type="text"
+              id="empresa"
+              name="empresa"
+              class="form__input"
+              placeholder="Tu empresa S.A.S."
+              autocomplete="organization"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="form__field">
+          <label for="email" class="form__label">Correo corporativo</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form__input"
+            placeholder="ana@tuempresa.com"
+            autocomplete="email"
+            required
+          />
+        </div>
+
+        <div class="form__field">
+          <label for="mensaje" class="form__label">¿Qué buscas lograr?</label>
+          <textarea
+            id="mensaje"
+            name="mensaje"
+            class="form__input form__textarea"
+            placeholder="Cuéntanos tus metas ESG, el tamaño de tu empresa, o cualquier pregunta que tengas..."
+            rows="5"
+            required
+          ></textarea>
+        </div>
+
+        <button type="submit" class="form__submit">
+          Enviar mensaje
+          <span class="form__submit-arrow" aria-hidden="true">→</span>
+        </button>
+
+        <p class="form__note">
+          Tu información es confidencial. No spam, nunca.
+        </p>
+      </form>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.fromTo('.contacto .gsap-hidden', { opacity: 0, y: 24 }, {
+    opacity: 1, y: 0, duration: 0.65, stagger: 0.12, ease: 'power3.out',
+    scrollTrigger: { trigger: '.contacto', start: 'top 75%' },
+  });
+</script>
+
+<style>
+  .contacto__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-16);
+    align-items: start;
+  }
+
+  @media (min-width: 900px) {
+    .contacto__inner { grid-template-columns: 1fr 1.4fr; }
+  }
+
+  /* Info */
+  .contacto__headline {
+    font-size: var(--text-h1);
+    font-weight: var(--weight-black);
+    letter-spacing: -0.02em;
+    color: var(--color-text-primary);
+    margin-top: var(--space-3);
+    line-height: var(--leading-tight);
+  }
+
+  .contacto__accent { color: var(--color-primary-dark); }
+
+  .contacto__sub {
+    font-size: var(--text-body-lg);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-normal);
+    margin-top: var(--space-4);
+    max-width: 380px;
+  }
+
+  .contacto__datos {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    margin-top: var(--space-8);
+  }
+
+  .contacto__dato-label {
+    display: block;
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+    margin-bottom: 2px;
+  }
+
+  .contacto__dato-val {
+    font-size: var(--text-body);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-primary);
+  }
+
+  a.contacto__dato-val {
+    color: var(--color-primary-dark);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color var(--duration-fast);
+  }
+
+  a.contacto__dato-val:hover { color: var(--color-primary); }
+
+  /* Formulario */
+  .contacto__form-wrap {
+    background: var(--color-bg);
+    border: 1px solid rgba(56,182,255,0.14);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    box-shadow: var(--shadow-md);
+  }
+
+  .contacto__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .form__row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 600px) {
+    .form__row { grid-template-columns: 1fr 1fr; }
+  }
+
+  .form__field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .form__label {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-primary);
+  }
+
+  .form__input {
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    color: var(--color-text-primary);
+    background: var(--color-bg-soft);
+    border: 1.5px solid rgba(56,182,255,0.18);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    transition: border-color var(--duration-fast), box-shadow var(--duration-fast);
+    width: 100%;
+    outline: none;
+  }
+
+  .form__input::placeholder { color: var(--color-text-muted); }
+
+  .form__input:focus {
+    border-color: var(--color-primary-dark);
+    box-shadow: 0 0 0 3px rgba(56,182,255,0.12);
+  }
+
+  .form__textarea { resize: vertical; min-height: 120px; }
+
+  .form__submit {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    background: var(--color-primary-dark);
+    color: var(--color-white);
+    font-family: var(--font-body);
+    font-size: var(--text-body-lg);
+    font-weight: var(--weight-semibold);
+    border: none;
+    border-radius: var(--radius-pill);
+    padding: 16px 36px;
+    cursor: pointer;
+    align-self: flex-start;
+    transition:
+      background var(--duration-fast),
+      box-shadow var(--duration-fast),
+      transform var(--duration-fast) var(--easing-spring);
+  }
+
+  .form__submit:hover {
+    background: var(--color-primary);
+    box-shadow: var(--shadow-cta);
+    transform: translateY(-1px);
+  }
+
+  .form__submit:active { transform: translateY(0); }
+
+  .form__submit-arrow {
+    transition: transform var(--duration-fast);
+  }
+
+  .form__submit:hover .form__submit-arrow { transform: translateX(4px); }
+
+  .form__note {
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+    margin-top: calc(-1 * var(--space-2));
+  }
+</style>

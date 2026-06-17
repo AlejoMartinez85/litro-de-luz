@@ -1,0 +1,320 @@
+---
+import Button from '@/components/ui/Button.astro';
+import MetricCounter from '@/components/islands/MetricCounter.jsx';
+---
+
+<section class="hero" aria-labelledby="hero-heading">
+  <!-- Fondo visual -->
+  <div class="hero__bg" aria-hidden="true">
+    <div class="hero__glow hero__glow--1"></div>
+    <div class="hero__glow hero__glow--2"></div>
+    <div class="hero__grid"></div>
+  </div>
+
+  <div class="container hero__inner">
+    <!-- Contenido principal -->
+    <div class="hero__content">
+      <p class="hero__eyebrow">
+        <span class="hero__dot" aria-hidden="true"></span>
+        Energía solar · Internet · Comunidad
+      </p>
+
+      <h1 id="hero-heading" class="hero__headline">
+        Llevamos luz solar<br />
+        donde la red eléctrica<br />
+        <span class="hero__accent">no llega.</span>
+      </h1>
+
+      <p class="hero__subhead">
+        ELISA® es la infraestructura solar que transforma el CO₂ en
+        comunidades iluminadas — y en impacto ESG certificado para tu empresa.
+      </p>
+
+      <div class="hero__ctas">
+        <Button href="/empresas#contacto" size="lg" arrow>
+          Certifica tu impacto ESG
+        </Button>
+        <Button href="#como-funciona" variant="ghost" size="lg">
+          Cómo funciona
+        </Button>
+      </div>
+    </div>
+
+    <!-- Visual: contador animado grande -->
+    <div class="hero__visual">
+      <div class="hero__counter-card">
+        <MetricCounter
+          client:load
+          value={550728}
+          suffix="+"
+          label="Personas iluminadas"
+          description="en 35 países"
+          variant="hero"
+        />
+      </div>
+
+      <div class="hero__trust" role="list" aria-label="Métricas adicionales">
+        <div class="hero__trust-item" role="listitem">
+          <span class="hero__trust-val">7.000+</span>
+          <span class="hero__trust-lbl">ELISA® activas</span>
+        </div>
+        <div class="hero__trust-sep" aria-hidden="true"></div>
+        <div class="hero__trust-item" role="listitem">
+          <span class="hero__trust-val">100</span>
+          <span class="hero__trust-lbl">ELISA®/día</span>
+        </div>
+        <div class="hero__trust-sep" aria-hidden="true"></div>
+        <div class="hero__trust-item" role="listitem">
+          <span class="hero__trust-val">15</span>
+          <span class="hero__trust-lbl">años de impacto</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Indicador de scroll -->
+  <a href="#impacto" class="hero__scroll" aria-label="Ir a métricas de impacto">
+    <span class="hero__scroll-line"></span>
+  </a>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+
+  const tl = gsap.timeline({ delay: 0.1 });
+  tl.fromTo(
+    '.hero__content > *',
+    { opacity: 0, y: 36 },
+    { opacity: 1, y: 0, duration: 0.75, stagger: 0.12, ease: 'power3.out' }
+  );
+  tl.fromTo(
+    '.hero__visual',
+    { opacity: 0, x: 28 },
+    { opacity: 1, x: 0, duration: 0.85, ease: 'power3.out' },
+    '-=0.5'
+  );
+  tl.fromTo(
+    '.hero__scroll',
+    { opacity: 0 },
+    { opacity: 1, duration: 0.5 },
+    '-=0.2'
+  );
+</script>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    background: var(--color-bg-dark);
+    color: var(--color-white);
+    overflow: hidden;
+    padding-block: var(--space-24);
+  }
+
+  /* ── Fondo ── */
+  .hero__bg { position: absolute; inset: 0; pointer-events: none; }
+
+  .hero__glow {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .hero__glow--1 {
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(56,182,255,0.15) 0%, transparent 65%);
+    bottom: -15%;
+    left: -12%;
+    filter: blur(60px);
+  }
+
+  .hero__glow--2 {
+    width: 380px;
+    height: 380px;
+    background: radial-gradient(circle, rgba(232,98,26,0.10) 0%, transparent 65%);
+    top: 8%;
+    right: 8%;
+    filter: blur(50px);
+  }
+
+  .hero__grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(56,182,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(56,182,255,0.04) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  /* ── Layout ── */
+  .hero__inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-16);
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .hero__inner { grid-template-columns: 55% 45%; }
+  }
+
+  /* ── Eyebrow ── */
+  .hero__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-primary);
+    margin-bottom: var(--space-6);
+  }
+
+  .hero__dot {
+    width: 8px;
+    height: 8px;
+    background: var(--color-primary);
+    border-radius: 50%;
+    flex-shrink: 0;
+    animation: dotBlink 2.2s ease-in-out infinite;
+  }
+
+  @keyframes dotBlink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.25; }
+  }
+
+  /* ── Headline ── */
+  .hero__headline {
+    font-size: var(--text-hero);
+    font-weight: var(--weight-black);
+    line-height: var(--leading-tight);
+    letter-spacing: -0.03em;
+    color: var(--color-white);
+    margin-bottom: var(--space-6);
+  }
+
+  .hero__accent { color: var(--color-primary); }
+
+  /* ── Subhead ── */
+  .hero__subhead {
+    font-size: var(--text-body-lg);
+    color: rgba(255, 255, 255, 0.6);
+    line-height: var(--leading-normal);
+    max-width: 480px;
+    margin-bottom: var(--space-8);
+  }
+
+  /* ── CTAs ── */
+  .hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+
+  /* ── Visual ── */
+  .hero__visual {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  @media (min-width: 900px) {
+    .hero__visual { align-items: flex-end; }
+  }
+
+  .hero__counter-card {
+    width: 100%;
+    padding: var(--space-8);
+    border: 1px solid rgba(56, 182, 255, 0.14);
+    border-radius: var(--radius-xl);
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(8px);
+  }
+
+  @media (min-width: 900px) {
+    .hero__counter-card { text-align: right; }
+  }
+
+  /* ── Trust row ── */
+  .hero__trust {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    flex-wrap: wrap;
+  }
+
+  @media (min-width: 900px) {
+    .hero__trust { justify-content: flex-end; }
+  }
+
+  .hero__trust-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  @media (min-width: 900px) {
+    .hero__trust-item { align-items: flex-end; }
+  }
+
+  .hero__trust-val {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: var(--weight-black);
+    color: var(--color-white);
+    line-height: 1;
+  }
+
+  .hero__trust-lbl {
+    font-size: var(--text-caption);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+  }
+
+  .hero__trust-sep {
+    width: 1px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.10);
+    flex-shrink: 0;
+  }
+
+  /* ── Scroll indicator ── */
+  .hero__scroll {
+    position: absolute;
+    bottom: var(--space-8);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  .hero__scroll-line {
+    display: block;
+    width: 1px;
+    height: 52px;
+    background: linear-gradient(to bottom, rgba(56,182,255,0.6), transparent);
+    animation: scrollPulse 2.2s ease-in-out infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%   { transform: scaleY(0); transform-origin: top; opacity: 1; }
+    50%  { transform: scaleY(1); transform-origin: top; opacity: 1; }
+    100% { transform: scaleY(1); transform-origin: bottom; opacity: 0; }
+  }
+
+  /* Accesibilidad: respetar preferencia de movimiento reducido */
+  @media (prefers-reduced-motion: reduce) {
+    .hero__dot, .hero__scroll-line { animation: none; opacity: 1; }
+  }
+</style>

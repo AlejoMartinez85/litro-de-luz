@@ -1,0 +1,151 @@
+---
+import SectionLabel from '@/components/ui/SectionLabel.astro';
+
+const beneficios = [
+  {
+    title: 'Certificación ESG automática',
+    desc: 'Cada ELISA® que financias genera créditos de carbono verificados internacionalmente. Los reportes quedan listos para tus auditorías de sostenibilidad.',
+    icon: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7L12 2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>`,
+  },
+  {
+    title: 'Dashboard de impacto en tiempo real',
+    desc: 'kWh generados, CO₂ evitado, personas beneficiadas y horas de luz — actualizados en vivo desde cada poste. Datos reales, no estimaciones.',
+    icon: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="3" y="12" width="4" height="9" rx="1" stroke="currentColor" stroke-width="1.5"/>
+      <rect x="10" y="7" width="4" height="14" rx="1" stroke="currentColor" stroke-width="1.5"/>
+      <rect x="17" y="3" width="4" height="18" rx="1" stroke="currentColor" stroke-width="1.5"/>
+    </svg>`,
+  },
+  {
+    title: 'Beneficio tributario',
+    desc: 'Tu inversión en ELISA® es deducible de impuesto de renta en Colombia. El impacto social y el ahorro fiscal van de la mano sin complicaciones.',
+    icon: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M3 21h18M5 21V9l7-6 7 6v12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M12 12v5M10 13h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>`,
+  },
+  {
+    title: 'Visibilidad de marca',
+    desc: 'Tu empresa aparece como aliada en comunidades, materiales de impacto y redes de Litro de Luz®. Impacto real que tus stakeholders pueden ver.',
+    icon: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M12 3c-2.5 3-4 5.5-4 9s1.5 6 4 9" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M12 3c2.5 3 4 5.5 4 9s-1.5 6-4 9" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M3 12h18" stroke="currentColor" stroke-width="1.5"/>
+    </svg>`,
+  },
+];
+---
+
+<section class="section beneficios" aria-labelledby="beneficios-heading">
+  <div class="container">
+    <div class="beneficios__header gsap-hidden">
+      <SectionLabel>¿Qué obtiene tu empresa?</SectionLabel>
+      <h2 id="beneficios-heading" class="beneficios__headline">
+        Impacto que puedes<br />medir, reportar y certificar.
+      </h2>
+    </div>
+
+    <ul class="beneficios__grid" role="list">
+      {beneficios.map((b, i) => (
+        <li class="beneficio gsap-hidden" style={`--i: ${i}`}>
+          <div class="beneficio__icon" set:html={b.icon} />
+          <h3 class="beneficio__title">{b.title}</h3>
+          <p class="beneficio__desc">{b.desc}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.fromTo('.beneficios__header', { opacity: 0, y: 28 }, {
+    opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
+    scrollTrigger: { trigger: '.beneficios', start: 'top 78%' },
+  });
+
+  gsap.fromTo('.beneficio', { opacity: 0, y: 28 }, {
+    opacity: 1, y: 0, duration: 0.6, stagger: 0.12, ease: 'power3.out',
+    scrollTrigger: { trigger: '.beneficios__grid', start: 'top 80%' },
+  });
+</script>
+
+<style>
+  .beneficios { background: var(--color-bg); }
+
+  .beneficios__header { margin-bottom: var(--space-16); }
+
+  .beneficios__headline {
+    font-size: var(--text-h1);
+    font-weight: var(--weight-black);
+    letter-spacing: -0.02em;
+    margin-top: var(--space-3);
+  }
+
+  .beneficios__grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 600px) {
+    .beneficios__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (min-width: 1000px) {
+    .beneficios__grid { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  .beneficio {
+    padding: var(--space-6);
+    border: 1px solid rgba(56,182,255,0.12);
+    border-radius: var(--radius-lg);
+    background: var(--color-bg-soft);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    transition: border-color var(--duration-normal), box-shadow var(--duration-normal);
+    cursor: default;
+  }
+
+  .beneficio:hover {
+    border-color: rgba(56,182,255,0.35);
+    box-shadow: var(--shadow-md);
+  }
+
+  .beneficio__icon {
+    width: 44px;
+    height: 44px;
+    background: var(--color-primary-light);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary-dark);
+    flex-shrink: 0;
+  }
+
+  .beneficio__icon svg { width: 22px; height: 22px; }
+
+  .beneficio__title {
+    font-size: var(--text-body-lg);
+    font-weight: var(--weight-bold);
+    color: var(--color-text-primary);
+    line-height: var(--leading-snug);
+  }
+
+  .beneficio__desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-normal);
+    flex: 1;
+  }
+</style>

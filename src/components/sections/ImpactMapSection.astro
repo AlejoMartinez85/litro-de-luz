@@ -1,0 +1,101 @@
+---
+import SectionLabel from '@/components/ui/SectionLabel.astro';
+import Button from '@/components/ui/Button.astro';
+import ImpactMap from '@/components/islands/ImpactMap.jsx';
+import { countries } from '@/data/countries';
+
+interface Props {
+  mode?: 'full' | 'teaser';
+}
+const { mode = 'full' } = Astro.props;
+---
+
+{mode === 'teaser' ? (
+  /* ── TEASER (home) ─────────────────────────────── */
+  <section class="section section--dark mapteaser" aria-labelledby="mapteaser-heading">
+    <div class="container mapteaser__inner">
+      <div class="mapteaser__header gsap-hidden">
+        <SectionLabel light>Presencia global</SectionLabel>
+        <h2 id="mapteaser-heading" class="mapteaser__headline">
+          35 países.<br />Una sola misión: llevar luz.
+        </h2>
+        <p class="mapteaser__sub">
+          Desde La Guajira hasta Filipinas, cada punto es una comunidad
+          con acceso a energía e internet gracias a ELISA®.
+        </p>
+        <Button href="/impacto" variant="secondary" size="md" arrow>
+          Explora el mapa de impacto
+        </Button>
+      </div>
+
+      <div class="mapteaser__map gsap-hidden">
+        <ImpactMap client:visible countries={countries} variant="teaser" />
+      </div>
+    </div>
+  </section>
+) : (
+  /* ── FULL (/impacto) ───────────────────────────── */
+  <div class="mapfull">
+    <ImpactMap client:visible countries={countries} variant="full" />
+  </div>
+)}
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.fromTo('.mapteaser .gsap-hidden', { opacity: 0, y: 28 }, {
+    opacity: 1, y: 0, duration: 0.7, stagger: 0.15, ease: 'power3.out',
+    scrollTrigger: { trigger: '.mapteaser', start: 'top 75%' },
+  });
+</script>
+
+<style>
+  /* ── TEASER ── */
+  .mapteaser__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-12);
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .mapteaser__inner { grid-template-columns: 0.85fr 1.15fr; gap: var(--space-16); }
+  }
+
+  .mapteaser__headline {
+    font-size: var(--text-h1);
+    font-weight: var(--weight-black);
+    letter-spacing: -0.02em;
+    color: var(--color-white);
+    margin-top: var(--space-3);
+    line-height: var(--leading-tight);
+  }
+
+  .mapteaser__sub {
+    font-size: var(--text-body-lg);
+    color: rgba(255, 255, 255, 0.62);
+    line-height: var(--leading-normal);
+    max-width: 460px;
+    margin-top: var(--space-5);
+    margin-bottom: var(--space-8);
+  }
+
+  .mapteaser__map {
+    position: relative;
+  }
+
+  /* ── FULL ── */
+  .mapfull {
+    margin-top: var(--space-8);
+    background: var(--color-bg-dark);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    overflow: hidden;
+  }
+
+  @media (min-width: 768px) {
+    .mapfull { padding: var(--space-8); }
+  }
+</style>

@@ -1,0 +1,103 @@
+---
+import SectionLabel from '@/components/ui/SectionLabel.astro';
+import { problemStats } from '@/data/metrics';
+import { formatNumber } from '@/utils/formatNumber';
+---
+
+<section class="section section--dark problem" id="problema" aria-labelledby="problem-heading">
+  <div class="container">
+    <SectionLabel light>Por qué existimos</SectionLabel>
+    <h2 id="problem-heading" class="problem__headline gsap-hidden">
+      La energía no llega sola.
+    </h2>
+
+    <div class="problem__stats">
+      {problemStats.map(stat => (
+        <article class="problem__stat gsap-hidden">
+          <p class="problem__stat-number">
+            {formatNumber(stat.value)}<span class="problem__stat-suffix">{stat.suffix ?? ''}</span>
+          </p>
+          <p class="problem__stat-label">{stat.label}</p>
+          <p class="problem__stat-desc">{stat.description}</p>
+        </article>
+      ))}
+    </div>
+
+    <p class="problem__closing gsap-hidden">
+      Las cifras no cambian con informes.<br />
+      <strong>Cambian con infraestructura.</strong>
+    </p>
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.fromTo('.problem .gsap-hidden', { opacity: 0, y: 30 }, {
+    opacity: 1, y: 0, duration: 0.7, stagger: 0.15, ease: 'power3.out',
+    scrollTrigger: { trigger: '.problem', start: 'top 75%' },
+  });
+</script>
+
+<style>
+  .problem__headline {
+    font-size: var(--text-h1);
+    font-weight: var(--weight-black);
+    color: var(--color-white);
+    margin-bottom: var(--space-16);
+    letter-spacing: -0.02em;
+  }
+
+  .problem__stats {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+    margin-bottom: var(--space-16);
+  }
+
+  @media (min-width: 600px) {
+    .problem__stats { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  .problem__stat {
+    border-left: 3px solid var(--color-primary);
+    padding-left: var(--space-6);
+  }
+
+  .problem__stat-number {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 6vw, 72px);
+    font-weight: var(--weight-black);
+    color: var(--color-white);
+    line-height: 1;
+    margin-bottom: var(--space-2);
+  }
+
+  .problem__stat-suffix {
+    color: var(--color-primary);
+  }
+
+  .problem__stat-label {
+    font-size: var(--text-body);
+    font-weight: var(--weight-semibold);
+    color: var(--color-white);
+    margin-bottom: var(--space-1);
+  }
+
+  .problem__stat-desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .problem__closing {
+    font-size: var(--text-h3);
+    color: var(--color-text-muted);
+    line-height: var(--leading-snug);
+  }
+
+  .problem__closing strong {
+    color: var(--color-white);
+  }
+</style>
