@@ -36,10 +36,19 @@ import SectionLabel from '@/components/ui/SectionLabel.astro';
         class="contacto__form"
         name="contacto-empresas"
         method="POST"
-        action="#contacto"
+        action="/api/contacto"
         novalidate
         aria-label="Formulario de contacto para empresas"
       >
+        <!-- Honeypot anti-spam: invisible para humanos, los bots lo rellenan -->
+        <input
+          type="text"
+          name="_gotcha"
+          class="form__hp"
+          tabindex="-1"
+          autocomplete="off"
+          aria-hidden="true"
+        />
         <div class="form__row">
           <div class="form__field">
             <label for="nombre" class="form__label">Nombre completo</label>
@@ -92,10 +101,12 @@ import SectionLabel from '@/components/ui/SectionLabel.astro';
           ></textarea>
         </div>
 
-        <button type="submit" class="form__submit">
-          Enviar mensaje
+        <button type="submit" class="form__submit" disabled>
+          <span class="form__submit-label">Enviar mensaje</span>
           <span class="form__submit-arrow" aria-hidden="true">→</span>
         </button>
+
+        <p class="form__status" role="status" aria-live="polite" hidden></p>
 
         <p class="form__note">
           Tu información es confidencial. No spam, nunca.
@@ -115,6 +126,81 @@ import SectionLabel from '@/components/ui/SectionLabel.astro';
     opacity: 1, y: 0, duration: 0.65, stagger: 0.12, ease: 'power3.out',
     scrollTrigger: { trigger: '.contacto', start: 'top 75%' },
   });
+
+  // ── Envío del formulario vía fetch al endpoint /api/contacto ──
+  const form = document.querySelector<HTMLFormElement>('.contacto__form');
+  const status = document.querySelector<HTMLParagraphElement>('.form__status');
+  const submit = document.querySelector<HTMLButtonElement>('.form__submit');
+  const submitLabel = submit?.querySelector<HTMLSpanElement>('.form__submit-label');
+
+  const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+
+  const showStatus = (msg: string, kind: 'error' | 'success') => {
+    if (!status) return;
+    status.textContent = msg;
+    status.hidden = false;
+    status.classList.remove('form__status--error', 'form__status--success');
+    status.classList.add(`form__status--${kind}`);
+  };
+
+  const fields = form?.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>(
+    '.form__input:not([name="_gotcha"])'
+  );
+
+  const checkFields = () => {
+    if (!submit || !fields) return;
+    const allFilled =
+      [...fields].every((f) => f.value.trim() !== '') &&
+      EMAIL_RE.test((form?.querySelector<HTMLInputElement>('#email')?.value ?? '').trim());
+    submit.disabled = !allFilled;
+  };
+
+  fields?.forEach((f) => f.addEventListener('input', checkFields));
+
+  if (form && submit && submitLabel) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const fd = new FormData(form);
+      const nombre = String(fd.get('nombre') ?? '').trim();
+      const empresa = String(fd.get('empresa') ?? '').trim();
+      const email = String(fd.get('email') ?? '').trim();
+      const mensaje = String(fd.get('mensaje') ?? '').trim();
+
+      if (!nombre || !empresa || !mensaje || !EMAIL_RE.test(email)) {
+        showStatus('Por favor completa todos los campos con un correo válido.', 'error');
+        return;
+      }
+
+      const originalLabel = submitLabel.textContent;
+      submit.disabled = true;
+      submitLabel.textContent = 'Enviando…';
+      if (status) status.hidden = true;
+
+      try {
+        const res = await fetch('/api/contacto', { method: 'POST', body: fd });
+        if (res.ok) {
+          form.reset();
+          showStatus('¡Gracias! Recibimos tu mensaje y te respondemos en menos de 24 horas.', 'success');
+          submitLabel.textContent = 'Mensaje enviado';
+          // El botón queda deshabilitado tras un envío exitoso.
+          return;
+        }
+        let msg = 'No se pudo enviar el mensaje. Intenta de nuevo.';
+        try {
+          const body = await res.json();
+          if (body?.error) msg = body.error;
+        } catch { /* respuesta sin JSON */ }
+        showStatus(msg, 'error');
+        submit.disabled = false;
+        submitLabel.textContent = originalLabel;
+      } catch {
+        showStatus('Hubo un problema de conexión. Revisa tu internet e intenta de nuevo.', 'error');
+        submit.disabled = false;
+        submitLabel.textContent = originalLabel;
+      }
+    });
+  }
 </script>
 
 <style>
@@ -269,11 +355,51 @@ import SectionLabel from '@/components/ui/SectionLabel.astro';
 
   .form__submit:active { transform: translateY(0); }
 
+  .form__submit:disabled {
+    background: var(--color-text-muted);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    opacity: 0.85;
+  }
+
   .form__submit-arrow {
     transition: transform var(--duration-fast);
   }
 
-  .form__submit:hover .form__submit-arrow { transform: translateX(4px); }
+  .form__submit:hover:not(:disabled) .form__submit-arrow { transform: translateX(4px); }
+
+  /* Honeypot anti-spam: fuera de pantalla, invisible y sin foco */
+  .form__hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    opacity: 0;
+  }
+
+  /* Mensaje de estado (éxito / error) */
+  .form__status {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    line-height: var(--leading-normal);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    margin-top: calc(-1 * var(--space-2));
+  }
+
+  .form__status--success {
+    color: var(--color-success);
+    background: rgba(22, 163, 74, 0.08);
+    border: 1px solid rgba(22, 163, 74, 0.25);
+  }
+
+  .form__status--error {
+    color: var(--color-accent);
+    background: rgba(232, 98, 26, 0.08);
+    border: 1px solid rgba(232, 98, 26, 0.25);
+  }
 
   .form__note {
     font-size: var(--text-caption);

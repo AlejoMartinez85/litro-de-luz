@@ -34,12 +34,64 @@ const currentPath = Astro.url.pathname;
       Certifica tu impacto ESG
     </a>
 
-    <!-- Mobile toggle (funcionalidad vía JS progresivo) -->
-    <button class="navbar__toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-menu">
+    <!-- Mobile toggle -->
+    <button
+      class="navbar__toggle"
+      aria-label="Abrir menú"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
       <span></span><span></span><span></span>
     </button>
   </nav>
+
+  <!-- Panel de menú móvil -->
+  <div class="navbar__mobile" id="mobile-menu">
+    <ul class="navbar__mobile-links" role="list">
+      {links.map(link => (
+        <li>
+          <a
+            href={link.href}
+            class={`navbar__mobile-link ${currentPath === link.href ? 'navbar__mobile-link--active' : ''}`}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+    <a href="/empresas#contacto" class="navbar__mobile-cta">
+      Certifica tu impacto ESG
+    </a>
+  </div>
 </header>
+
+<script>
+  const header = document.querySelector('.navbar');
+  const toggle = document.querySelector('.navbar__toggle');
+  const menu = document.getElementById('mobile-menu');
+
+  if (header && toggle && menu) {
+    const setOpen = (open: boolean) => {
+      header.classList.toggle('is-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+    };
+
+    toggle.addEventListener('click', () => {
+      setOpen(!header.classList.contains('is-open'));
+    });
+
+    // Cerrar al tocar un link
+    menu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => setOpen(false));
+    });
+
+    // Cerrar con Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') setOpen(false);
+    });
+  }
+</script>
 
 <style>
   .navbar {
@@ -129,10 +181,93 @@ const currentPath = Astro.url.pathname;
     height: 2px;
     background: var(--color-text-primary);
     border-radius: 2px;
-    transition: transform var(--duration-normal) var(--easing-smooth);
+    transition:
+      transform var(--duration-normal) var(--easing-smooth),
+      opacity var(--duration-fast) var(--easing-smooth);
   }
 
   @media (min-width: 768px) {
     .navbar__toggle { display: none; }
+  }
+
+  /* Hamburguesa → X cuando el menú está abierto */
+  .navbar.is-open .navbar__toggle span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .navbar.is-open .navbar__toggle span:nth-child(2) {
+    opacity: 0;
+  }
+  .navbar.is-open .navbar__toggle span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* ── Panel de menú móvil ── */
+  .navbar__mobile {
+    display: none;
+  }
+
+  @media (max-width: 767px) {
+    .navbar__mobile {
+      display: grid;
+      gap: var(--space-2);
+      position: absolute;
+      top: 64px;
+      left: 0;
+      right: 0;
+      background: var(--color-bg);
+      border-bottom: 1px solid rgba(56, 182, 255, 0.12);
+      box-shadow: var(--shadow-md);
+      padding: var(--space-4) var(--space-6) var(--space-6);
+      /* Estado cerrado */
+      opacity: 0;
+      transform: translateY(-10px);
+      pointer-events: none;
+      transition:
+        opacity var(--duration-normal) var(--easing-smooth),
+        transform var(--duration-normal) var(--easing-smooth);
+    }
+
+    .navbar.is-open .navbar__mobile {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+  }
+
+  .navbar__mobile-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .navbar__mobile-link {
+    display: block;
+    padding: 14px 4px;
+    font-size: var(--text-body);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-primary);
+    border-bottom: 1px solid rgba(56, 182, 255, 0.08);
+    transition: color var(--duration-fast) var(--easing-smooth);
+  }
+
+  .navbar__mobile-link:hover,
+  .navbar__mobile-link--active {
+    color: var(--color-primary-dark);
+  }
+
+  .navbar__mobile-cta {
+    margin-top: var(--space-2);
+    padding: 14px 20px;
+    background: var(--color-primary-dark);
+    color: var(--color-white);
+    border-radius: var(--radius-pill);
+    font-size: var(--text-body);
+    font-weight: var(--weight-semibold);
+    text-align: center;
+    transition: background var(--duration-fast) var(--easing-smooth);
+  }
+
+  .navbar__mobile-cta:hover {
+    background: var(--color-primary);
   }
 </style>

@@ -9,11 +9,13 @@
   },
   "dependencies": {
     "@astrojs/react": "^3.6.0",
+    "@astrojs/vercel": "^7.8.2",
     "astro": "^4.15.0",
     "d3-geo": "^3.1.1",
     "gsap": "^3.12.5",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
+    "resend": "^6.14.0",
     "topojson-client": "^3.1.0",
     "uipro-cli": "^2.2.3"
   },
