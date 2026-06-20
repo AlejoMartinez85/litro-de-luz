@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://litro-de-luz.vercel.app/sitemap.xml

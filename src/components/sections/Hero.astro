@@ -16,26 +16,32 @@ import MetricCounter from '@/components/islands/MetricCounter.jsx';
     <div class="hero__content">
       <p class="hero__eyebrow">
         <span class="hero__dot" aria-hidden="true"></span>
-        Energía solar · Internet · Comunidad
+        Impact Intelligence · DePIN · CSRD Compliance
       </p>
 
       <h1 id="hero-heading" class="hero__headline">
-        Llevamos luz solar<br />
-        donde la red eléctrica<br />
-        <span class="hero__accent">no llega.</span>
+        Physical Impact.<br />
+        <span class="hero__accent">Digital Proof.</span>
       </h1>
 
       <p class="hero__subhead">
-        ELISA® es la infraestructura solar que transforma el CO₂ en
-        comunidades iluminadas — y en impacto ESG certificado para tu empresa.
+        La primera plataforma de Impact Intelligence para el último kilómetro.
+        Infraestructura física + telemetría IoT + datos ESG auditables en tiempo real.
       </p>
+
+      <div class="hero__badges" role="list" aria-label="Certificaciones de cumplimiento">
+        <span class="hero__badge" role="listitem">CSRD Compliant</span>
+        <span class="hero__badge" role="listitem">GRI Verified</span>
+        <span class="hero__badge" role="listitem">GHG Protocol</span>
+        <span class="hero__badge" role="listitem">AI-Audited</span>
+      </div>
 
       <div class="hero__ctas">
         <Button href="/empresas#contacto" size="lg" arrow>
-          Certifica tu impacto ESG
+          Ver la plataforma
         </Button>
-        <Button href="#como-funciona" variant="ghost" size="lg">
-          Cómo funciona
+        <Button href="#impact-exchange" variant="ghost" size="lg">
+          Explorar Impact Exchange®
         </Button>
       </div>
     </div>
@@ -211,6 +217,26 @@ import MetricCounter from '@/components/islands/MetricCounter.jsx';
     margin-bottom: var(--space-8);
   }
 
+  /* ── Badges ── */
+  .hero__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-8);
+  }
+
+  .hero__badge {
+    background: rgba(56, 182, 255, 0.10);
+    border: 1px solid rgba(56, 182, 255, 0.30);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-caption);
+    color: var(--color-primary);
+    padding: 4px 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.10em;
+    font-weight: var(--weight-semibold);
+  }
+
   /* ── CTAs ── */
   .hero__ctas {
     display: flex;
@@ -236,6 +262,7 @@ import MetricCounter from '@/components/islands/MetricCounter.jsx';
     border-radius: var(--radius-xl);
     background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(8px);
+    overflow: hidden;
   }
 
   @media (min-width: 900px) {

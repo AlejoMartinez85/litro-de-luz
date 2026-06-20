@@ -1,0 +1,365 @@
+---
+import SectionLabel from '@/components/ui/SectionLabel.astro';
+import Button from '@/components/ui/Button.astro';
+
+interface Props {
+  compact?: boolean;
+}
+const { compact = false } = Astro.props;
+
+const features = [
+  {
+    title: 'Live IoT Telemetry',
+    desc: 'Datos de energía, conectividad y comunidad actualizados 24/7',
+    icon: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="10" cy="10" r="3" fill="currentColor"/><path d="M4.5 4.5a7.78 7.78 0 0 0 0 11M15.5 4.5a7.78 7.78 0 0 1 0 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/><path d="M7 7a4.24 4.24 0 0 0 0 6M13 7a4.24 4.24 0 0 1 0 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>`,
+  },
+  {
+    title: 'AI-Audited ESG Data',
+    desc: 'Verificación automática de impacto con trazabilidad completa',
+    icon: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10 2L12.5 7.5H18L13.5 11L15.5 17L10 13.5L4.5 17L6.5 11L2 7.5H7.5L10 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" fill="none"/></svg>`,
+  },
+  {
+    title: 'CSRD Auto-Reports',
+    desc: 'Reportes generados automáticamente en formato regulatorio',
+    icon: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 3h9l3 3v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M13 3v3h3M7 9h6M7 12h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+  },
+  {
+    title: 'GHG Protocol Export',
+    desc: 'Exportación compatible con estándares internacionales de carbono',
+    icon: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10 3v10M6 9l4 4 4-4M3 17h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  },
+  {
+    title: 'Hardware-Enabled SaaS',
+    desc: 'Los datos vienen de infraestructura física real, no estimaciones',
+    icon: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="2" y="6" width="16" height="10" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M6 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke="currentColor" stroke-width="1.5"/><path d="M10 10v2M7 10v2M13 10v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+  },
+];
+---
+
+<section class="section section--dark ie" id="impact-exchange" aria-labelledby="impact-exchange-heading">
+  <div class="container ie__inner">
+
+    <!-- Dashboard mockup -->
+    <div class="ie__dashboard gsap-hidden" aria-hidden="true">
+      <div class="ie__dash-card">
+        <!-- Header -->
+        <div class="ie__dash-header">
+          <span class="ie__dash-title">Impact Exchange®</span>
+          <span class="ie__dash-live">
+            <span class="ie__dash-dot"></span>
+            Live
+          </span>
+        </div>
+
+        <!-- KPIs -->
+        <div class="ie__kpis">
+          <div class="ie__kpi">
+            <span class="ie__kpi-value">550,728</span>
+            <span class="ie__kpi-label">Beneficiarios activos</span>
+          </div>
+          <div class="ie__kpi">
+            <span class="ie__kpi-value">98.2%</span>
+            <span class="ie__kpi-label">Uptime de red</span>
+          </div>
+          <div class="ie__kpi">
+            <span class="ie__kpi-value">$12.4M</span>
+            <span class="ie__kpi-label">ESG value tracked</span>
+          </div>
+        </div>
+
+        <!-- Mini bar chart SVG -->
+        <div class="ie__chart">
+          <svg viewBox="0 0 240 72" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="0"   y="36" width="20" height="36" rx="3" fill="var(--color-primary)" opacity="0.6"/>
+            <rect x="28"  y="20" width="20" height="52" rx="3" fill="var(--color-primary)" opacity="0.7"/>
+            <rect x="56"  y="28" width="20" height="44" rx="3" fill="var(--color-primary)" opacity="0.65"/>
+            <rect x="84"  y="10" width="20" height="62" rx="3" fill="var(--color-primary)" opacity="0.9"/>
+            <rect x="112" y="18" width="20" height="54" rx="3" fill="var(--color-primary)" opacity="0.75"/>
+            <rect x="140" y="8"  width="20" height="64" rx="3" fill="var(--color-primary)"/>
+            <rect x="168" y="22" width="20" height="50" rx="3" fill="var(--color-primary)" opacity="0.8"/>
+            <rect x="196" y="4"  width="20" height="68" rx="3" fill="var(--color-primary)"/>
+            <rect x="220" y="14" width="20" height="58" rx="3" fill="var(--color-primary)" opacity="0.85"/>
+          </svg>
+        </div>
+
+        <!-- Compliance badges -->
+        <div class="ie__compliance">
+          <span class="ie__compliance-badge">CSRD ✓</span>
+          <span class="ie__compliance-badge">GRI ✓</span>
+          <span class="ie__compliance-badge">GHG Protocol ✓</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="ie__content">
+      {!compact && (
+        <div class="gsap-hidden">
+          <SectionLabel light>Impact Exchange®</SectionLabel>
+          <h2 id="impact-exchange-heading" class="ie__headline">
+            Tu ESG respaldado<br />por hardware real.
+          </h2>
+          <p class="ie__sub">
+            Cada nodo ELISA® y ELIoT® transmite telemetría en tiempo real.
+            Impact Exchange® convierte esos datos físicos en reportes ESG auditables
+            por AI — listos para CSRD, GRI y GHG Protocol.
+          </p>
+        </div>
+      )}
+
+      <ul class="ie__features gsap-hidden" role="list">
+        {features.map(f => (
+          <li class="ie__feature" role="listitem">
+            <span class="ie__feature-icon" set:html={f.icon}></span>
+            <div>
+              <p class="ie__feature-title">{f.title}</p>
+              <p class="ie__feature-desc">{f.desc}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      <div class="ie__footer gsap-hidden">
+        <p class="ie__pricing">
+          Precios según volumen de nodos.
+          <strong>Hardware + plataforma incluidos</strong>
+          · Data licensing disponible
+        </p>
+        <Button href="/empresas#contacto" size="lg" arrow>
+          Schedule a Demo
+        </Button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.fromTo('.ie__content .gsap-hidden', { opacity: 0, y: 28 }, {
+    opacity: 1, y: 0, duration: 0.7, stagger: 0.12, ease: 'power3.out',
+    scrollTrigger: { trigger: '.ie', start: 'top 75%' },
+  });
+
+  gsap.fromTo('.ie__dashboard', { opacity: 0, x: -24 }, {
+    opacity: 1, x: 0, duration: 0.85, ease: 'power3.out',
+    scrollTrigger: { trigger: '.ie', start: 'top 75%' },
+  });
+</script>
+
+<style>
+  .ie__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-16);
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .ie__inner {
+      grid-template-columns: 55% 45%;
+      gap: var(--space-16);
+    }
+  }
+
+  /* ── Dashboard mockup ── */
+  .ie__dash-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(56, 182, 255, 0.15);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .ie__dash-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .ie__dash-title {
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--color-white);
+    letter-spacing: 0.02em;
+  }
+
+  .ie__dash-live {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-medium);
+    color: var(--color-success);
+    background: var(--color-success-bg);
+    border: 1px solid var(--color-success-border);
+    border-radius: var(--radius-pill);
+    padding: 3px 10px;
+  }
+
+  .ie__dash-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--color-success);
+    border-radius: 50%;
+    animation: ieDotPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes ieDotPulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.35; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ie__dash-dot { animation: none; }
+  }
+
+  /* KPIs */
+  .ie__kpis {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+  }
+
+  .ie__kpi {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: var(--space-4);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(56, 182, 255, 0.10);
+    border-radius: var(--radius-md);
+  }
+
+  .ie__kpi-value {
+    font-family: var(--font-display);
+    font-size: clamp(18px, 2.5vw, 26px);
+    font-weight: var(--weight-black);
+    color: var(--color-white);
+    line-height: 1;
+  }
+
+  .ie__kpi-label {
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* Chart */
+  .ie__chart svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Compliance badges */
+  .ie__compliance {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    padding-top: var(--space-4);
+    border-top: 1px solid rgba(56, 182, 255, 0.10);
+  }
+
+  .ie__compliance-badge {
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    color: var(--color-primary);
+    background: rgba(56, 182, 255, 0.10);
+    border: 1px solid rgba(56, 182, 255, 0.25);
+    border-radius: var(--radius-sm);
+    padding: 3px 8px;
+    letter-spacing: 0.06em;
+  }
+
+  /* ── Content ── */
+  .ie__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-10);
+  }
+
+  .ie__headline {
+    font-size: var(--text-h1);
+    font-weight: var(--weight-black);
+    color: var(--color-white);
+    letter-spacing: -0.02em;
+    margin-top: var(--space-3);
+    line-height: var(--leading-tight);
+  }
+
+  .ie__sub {
+    font-size: var(--text-body-lg);
+    color: rgba(255, 255, 255, 0.6);
+    line-height: var(--leading-normal);
+    margin-top: var(--space-4);
+    max-width: 480px;
+  }
+
+  /* Features list */
+  .ie__features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .ie__feature {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-4);
+  }
+
+  .ie__feature-icon {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(56, 182, 255, 0.10);
+    border: 1px solid rgba(56, 182, 255, 0.20);
+    border-radius: var(--radius-md);
+    color: var(--color-primary);
+  }
+
+  .ie__feature-title {
+    font-size: var(--text-body);
+    font-weight: var(--weight-semibold);
+    color: var(--color-white);
+    margin-bottom: 2px;
+  }
+
+  .ie__feature-desc {
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.5);
+    line-height: var(--leading-normal);
+  }
+
+  /* Footer */
+  .ie__footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    padding-top: var(--space-6);
+    border-top: 1px solid rgba(56, 182, 255, 0.10);
+  }
+
+  .ie__pricing {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: var(--leading-normal);
+  }
+
+  .ie__pricing strong {
+    color: rgba(255, 255, 255, 0.75);
+    font-weight: var(--weight-semibold);
+  }
+</style>

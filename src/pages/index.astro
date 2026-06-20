@@ -9,15 +9,42 @@ import Problem from '@/components/sections/Problem.astro';
 import HowItWorks from '@/components/sections/HowItWorks.astro';
 import ElisaTeaser from '@/components/sections/ElisaTeaser.astro';
 import ForCompanies from '@/components/sections/ForCompanies.astro';
+import ImpactExchange from '@/components/sections/ImpactExchange.astro';
 import Marcas from '@/components/sections/Marcas.astro';
 import FinalCTA from '@/components/sections/FinalCTA.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Litro de Luz®",
+  "url": "https://litro-de-luz.vercel.app",
+  "logo": "https://litro-de-luz.vercel.app/favicon.svg",
+  "description": "Empresa de tecnología de energía solar que lleva infraestructura de luz e internet a comunidades sin acceso a la red eléctrica. +550.000 beneficiarios en 35 países.",
+  "foundingDate": "2011",
+  "areaServed": "35 países",
+  "sameAs": [
+    "https://twitter.com/unlitrodeluzcol",
+    "https://www.facebook.com/unlitrodeluzcol",
+    "https://www.youtube.com/user/unlitrodeluzcolombia"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "email": "gerencia@unlitrodeluzcolombia.org",
+    "contactType": "customer service"
+  }
+};
 ---
 
-<BaseLayout>
+<BaseLayout
+  title="Litro de Luz® — Physical Impact. Digital Proof."
+  description="La plataforma de Impact Intelligence que convierte infraestructura solar en evidencia ESG verificable. +550.000 beneficiarios · 35 países · CSRD compliant."
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} />
   <Navbar />
   <main>
     <Hero />
     <ImpactNumbers />
+    <ImpactExchange />
     <ImpactMapSection mode="teaser" />
     <Problem />
     <HowItWorks />

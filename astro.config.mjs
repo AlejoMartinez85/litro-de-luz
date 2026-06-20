@@ -4,7 +4,7 @@ import vercel from '@astrojs/vercel/serverless';
 
 export default defineConfig({
   integrations: [react()],
-  site: 'https://litrodeluz.org',
+  site: 'https://litro-de-luz.vercel.app',
   output: 'hybrid',
   adapter: vercel(),
   compressHTML: true,

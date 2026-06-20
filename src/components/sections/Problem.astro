@@ -1,6 +1,6 @@
 ---
 import SectionLabel from '@/components/ui/SectionLabel.astro';
-import { problemStats } from '@/data/metrics';
+import { problemStats, csrdStats } from '@/data/metrics';
 import { formatNumber } from '@/utils/formatNumber';
 ---
 
@@ -8,7 +8,7 @@ import { formatNumber } from '@/utils/formatNumber';
   <div class="container">
     <SectionLabel light>Por qué existimos</SectionLabel>
     <h2 id="problem-heading" class="problem__headline gsap-hidden">
-      La energía no llega sola.
+      El impacto real es invisible.<br /><span class="problem__headline-accent">Hasta ahora.</span>
     </h2>
 
     <div class="problem__stats">
@@ -23,9 +23,25 @@ import { formatNumber } from '@/utils/formatNumber';
       ))}
     </div>
 
+    <hr class="problem__divider gsap-hidden" />
+
+    <p class="problem__b2b-label gsap-hidden">El problema del cliente B2B</p>
+    <div class="problem__stats problem__stats--csrd">
+      {csrdStats.map(stat => (
+        <article class="problem__stat gsap-hidden">
+          <p class="problem__stat-number">
+            {formatNumber(stat.value)}<span class="problem__stat-suffix">{stat.suffix ?? ''}</span>
+          </p>
+          <p class="problem__stat-label">{stat.label}</p>
+          <p class="problem__stat-desc">{stat.description}</p>
+        </article>
+      ))}
+    </div>
+
     <p class="problem__closing gsap-hidden">
-      Las cifras no cambian con informes.<br />
-      <strong>Cambian con infraestructura.</strong>
+      Las empresas invierten millones en ESG. Sin datos físicos verificables,
+      es solo una promesa.<br />
+      <strong>Litro de Luz® convierte infraestructura real en evidencia auditable.</strong>
     </p>
   </div>
 </section>
@@ -48,6 +64,29 @@ import { formatNumber } from '@/utils/formatNumber';
     color: var(--color-white);
     margin-bottom: var(--space-16);
     letter-spacing: -0.02em;
+  }
+
+  .problem__headline-accent {
+    color: var(--color-primary);
+  }
+
+  .problem__divider {
+    border: none;
+    border-top: 1px solid rgba(56, 182, 255, 0.15);
+    margin-bottom: var(--space-8);
+  }
+
+  .problem__b2b-label {
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-primary);
+    margin-bottom: var(--space-8);
+  }
+
+  .problem__stats--csrd {
+    margin-bottom: var(--space-16);
   }
 
   .problem__stats {

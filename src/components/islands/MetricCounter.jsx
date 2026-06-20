@@ -31,12 +31,13 @@ export default function MetricCounter({ value, suffix = '', label, description, 
     }}>
       <p style={{
         fontFamily: 'var(--font-display)',
-        fontSize: isHero ? 'clamp(72px, 11vw, 136px)' : 'clamp(36px, 5vw, 56px)',
+        fontSize: isHero ? 'clamp(36px, 7vw, 96px)' : 'clamp(36px, 5vw, 56px)',
         fontWeight: 800,
         color: isDark ? 'var(--color-white)' : 'var(--color-text-primary)',
         lineHeight: 1,
         marginBottom: '6px',
         letterSpacing: isHero ? '-0.04em' : '-0.02em',
+        whiteSpace: 'nowrap',
       }}>
         <span ref={valueRef}>{value.toLocaleString('es-CO')}</span>
         <span style={{ color: 'var(--color-primary)' }}>{suffix}</span>
